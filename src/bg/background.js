@@ -12,7 +12,7 @@ var urls = [];
 var hangoutUrls = ["mail.google.com","hangouts.google.com"];
 var lightState = false;
 var currentColor = 'red';
-const HANGOUTS_LIGHT_APP_ID = "ifnmcjahnmlnocfdgbiikimiikppbamj";
+const HANGOUTS_LIGHT_APP_ID = "ghcabdmgenbpngldggklmecdkcebbhfj";
 
 function tryer() { try{ main() } catch (error) {alert(error)}; }
 document.onload = main();
