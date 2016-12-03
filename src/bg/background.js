@@ -11,12 +11,11 @@
 var urls = [];
 var hangoutUrls = ["mail.google.com","hangouts.google.com"];
 var lightState = false;
-var colors = ['white', 'black', 'blue', 'red', 'green', 'yellow', 'cyan',
-    'magenta'];
 var currentColor = 'red';
+const HANGOUTS_LIGHT_APP_ID = "ifnmcjahnmlnocfdgbiikimiikppbamj";
 
 function tryer() { try{ main() } catch (error) {alert(error)}; }
-document.onload =tryer()
+document.onload = main();
 
 /**
  * This function refreshes the urls and changes the instance variable: "urls" which is an array of urls
@@ -71,15 +70,10 @@ function checkForHangouts() {
 }
 
 function controlLight() {
-    if(lightState){
-        alert('on');
-        setTimeout(function() {
-            dell.led.turnOn();
-            dell.led.changeColor('red');
-        }, 300);
-    } else {
-        dell.led.turnOff();
-    }
+        chrome.runtime.sendMessage(HANGOUTS_LIGHT_APP_ID, {light_state: lightState},
+            function(response) {
+
+            });
 }
 
 function timedLoop() {
@@ -91,7 +85,6 @@ function timedLoop() {
 
 
 function main() {
-    dell.led.initialize();
 
     timedLoop();
 };
