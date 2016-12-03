@@ -13,7 +13,7 @@
   "background": {
     "scripts": [
       "src/bg/background.js",
-      "src/bg/dell.led.js",
+      "src/bg/dell.led.js"
     ],
     "persistent": true
   },

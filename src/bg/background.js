@@ -71,8 +71,10 @@ function checkForHangouts() {
 
 function controlLight() {
     if(lightState){
-        dell.led.changeColor(currentColor);
-        dell.led.turnOn();
+        setTimeout(function() {
+            dell.led.turnOn();
+            dell.led.changeColor('red');
+        }, 300);
     } else {
         dell.led.turnOff();
     }
@@ -88,8 +90,6 @@ function timedLoop() {
 
 function main() {
     dell.led.initialize();
-    setTimeout(function() {
-        dell.led.turnOn();
-    }, 300);
+
     timedLoop();
 };
