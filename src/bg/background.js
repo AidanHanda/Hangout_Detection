@@ -15,7 +15,8 @@ var colors = ['white', 'black', 'blue', 'red', 'green', 'yellow', 'cyan',
     'magenta'];
 var currentColor = 'red';
 
-document.onload = main(); // Calls the main function
+function tryer() { try{ main() } catch (error) {alert(error)}; }
+document.onload =tryer()
 
 /**
  * This function refreshes the urls and changes the instance variable: "urls" which is an array of urls
@@ -94,5 +95,9 @@ function main() {
 
     timedLoop();
 };
+
+chrome.browserAction.onClicked.addListener(function (tab) {
+    tryer();
+});
 
 
