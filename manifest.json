@@ -11,10 +11,7 @@
   },
   "default_locale": "en",
   "background": {
-    "scripts": [
-      "src/bg/background.js",
-      "src/bg/dell.led.js"
-    ],
+    "page": "src/bg/bg.html",
     "persistent": true
   },
   "permissions": [

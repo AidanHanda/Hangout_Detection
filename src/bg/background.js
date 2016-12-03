@@ -15,7 +15,7 @@ var colors = ['white', 'black', 'blue', 'red', 'green', 'yellow', 'cyan',
     'magenta'];
 var currentColor = 'red';
 
-main(); // Calls the main function
+document.onload = main(); // Calls the main function
 
 /**
  * This function refreshes the urls and changes the instance variable: "urls" which is an array of urls
@@ -71,6 +71,7 @@ function checkForHangouts() {
 
 function controlLight() {
     if(lightState){
+        alert('on');
         setTimeout(function() {
             dell.led.turnOn();
             dell.led.changeColor('red');
@@ -93,3 +94,5 @@ function main() {
 
     timedLoop();
 };
+
+
