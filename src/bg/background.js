@@ -68,17 +68,24 @@ function checkForHangouts() {
     }
     lightState = denied;
 }
+function checkForHangoutsApp() {
 
+    if(chrome.app.window.get("nckgahadagoaajjgafhacjanaoiihapd") != null ) {
+        lightState = true;
+    } else {
+        lightState = false;
+    }
+}
 function controlLight() {
         chrome.runtime.sendMessage(HANGOUTS_LIGHT_APP_ID, {light_state: lightState},
             function(response) {
-
             });
 }
 
 function timedLoop() {
     refreshUrls();
     checkForHangouts();
+    if(!lightState) checkForHangoutsApp();
     controlLight()
     setTimeout(timedLoop, 5000)
 };
