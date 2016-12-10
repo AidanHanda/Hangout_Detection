@@ -13,9 +13,11 @@ var hangoutUrls = ["mail.google.com","hangouts.google.com"];
 var lightState = false;
 var currentColor = 'red';
 const HANGOUTS_LIGHT_APP_ID = "ghcabdmgenbpngldggklmecdkcebbhfj";
+const HANGOUTS_APP_EXTENSION_URL = "knipolnnllmklapflnccelgolnpehhpl";
+var goOn = false;
 
-function tryer() { try{ main() } catch (error) {alert(error)}; }
-document.onload = main();
+function tryer() { try{ main() } catch (error) {console.log("Something went wrong!")}; }
+document.onload = tryer();
 
 /**
  * This function refreshes the urls and changes the instance variable: "urls" which is an array of urls
@@ -45,11 +47,16 @@ function refreshUrls() {
                     }
                 });
             }
-            console.log(urls);
         });
     }catch (error) {}
 
 }
+
+function isDone() {
+    if(goOn) return true;
+    goOne = false;
+}
+
 
 /**
  * This function compares the currently open urls against the hangout urls to see if hangouts is opened.
@@ -68,26 +75,48 @@ function checkForHangouts() {
     }
     lightState = denied;
 }
-function checkForHangoutsApp() {
 
-    if(chrome.app.window.get("nckgahadagoaajjgafhacjanaoiihapd") != null ) {
-        lightState = true;
-    } else {
-        lightState = false;
-    }
+function checkForHangoutsApp() {
+    var d = false;
+    chrome.windows.getAll({ populate : true, windowTypes : ['app']}, function (window_list) {
+        for( var i = 0; i < window_list.length; i++) {
+            for( var c = 0; c < window_list[i].tabs.length; c++ ) {
+                if(window_list[i].tabs[c]['url'].includes(HANGOUTS_APP_EXTENSION_URL)){
+                    d = true;
+                }
+            }
+        }
+        lightState = d;
+        goOn = true;
+    });
 }
+
+
 function controlLight() {
         chrome.runtime.sendMessage(HANGOUTS_LIGHT_APP_ID, {light_state: lightState},
             function(response) {
             });
 }
+function checkForComplete() {
+    if(isDone()) {
+        controlLight();
+        setTimeout(timedLoop, 5000)
+    } else {
+        setTimeout(checkForComplete, 100)
+    }
+}
 
 function timedLoop() {
     refreshUrls();
     checkForHangouts();
-    if(!lightState) checkForHangoutsApp();
-    controlLight()
-    setTimeout(timedLoop, 5000)
+    if(!lightState){
+        checkForHangoutsApp();
+        setTimeout(checkForComplete,100);
+    } else {
+        controlLight()
+        setTimeout(timedLoop, 5000)
+
+    }
 };
 
 
@@ -95,9 +124,5 @@ function main() {
 
     timedLoop();
 };
-
-chrome.browserAction.onClicked.addListener(function (tab) {
-    tryer();
-});
 
 
